@@ -15,23 +15,60 @@ export default function SkillsSection({}: SkillsSectionProps) {
   const { filteredSkills, loading } = useSkills()
 
   // Create organic positioning for desktop
-  const organicPositions = useMemo(() => {
+  // Helper to generate non-overlapping, clustered, centered positions
+  const generateNonOverlappingPositions = (
+    count: number,
+    iconSize = 64,
+    padding = 20,
+    maxAttempts = 10000
+  ): Array<{ x: number; y: number }> => {
+    const spacing = iconSize + padding
+    const estimatedCols = Math.ceil(Math.sqrt(count))
+    // Slightly larger area for organic cluster, but not too spread out
+    const areaSize = estimatedCols * spacing * 1.2
+
     const positions: Array<{ x: number; y: number }> = []
-    let skillIndex = 0
+    let attempts = 0
 
-    filteredSkills.forEach((category) => {
-      category.skills.forEach((skill, index) => {
-        const angle = skillIndex * 137.5 * (Math.PI / 180) // Golden angle for organic distribution
-        const distance = Math.sqrt(skillIndex) * 30 + 50
-        const x = Math.cos(angle) * distance
-        const y = Math.sin(angle) * distance
-        positions.push({ x, y })
-        skillIndex++
+    while (positions.length < count && attempts < maxAttempts) {
+      // Generate a batch of candidates, pick the one closest to center
+      const candidates: Array<{ x: number; y: number }> = []
+      for (let i = 0; i < 10; i++) {
+        // Cluster around (0,0), centered
+        const x = (Math.random() - 0.5) * areaSize
+        const y = (Math.random() - 0.5) * areaSize
+        candidates.push({ x, y })
+      }
+      // Sort by distance to center, prefer more clustered
+      candidates.sort((a, b) => {
+        const da = Math.sqrt(a.x * a.x + a.y * a.y)
+        const db = Math.sqrt(b.x * b.x + b.y * b.y)
+        return da - db
       })
-    })
-
+      // Choose first candidate that doesn't overlap
+      const selected = candidates.find(({ x, y }) => {
+        return !positions.some((p) => {
+          const dx = p.x - x
+          const dy = p.y - y
+          const dist = Math.sqrt(dx * dx + dy * dy)
+          return dist < spacing
+        })
+      })
+      if (selected) {
+        positions.push(selected)
+      }
+      attempts++
+    }
     return positions
-  }, [filteredSkills])
+  }
+
+  // Count total icons
+  const iconCount = filteredSkills.reduce((acc, cat) => acc + cat.skills.length, 0)
+  // Regenerate positions every time filteredSkills changes (so icons move each filter)
+  const organicPositions = useMemo(
+    () => generateNonOverlappingPositions(iconCount),
+    [iconCount, filteredSkills]
+  )
 
   if (loading) {
     return (
@@ -87,14 +124,14 @@ export default function SkillsSection({}: SkillsSectionProps) {
                         return (
                           <div
                             key={`${category.category}-${skill.name}`}
-                            className="absolute"
+                            className="absolute z-0"
                             style={{
                               left: `calc(50% + ${position.x}px)`,
                               top: `calc(50% + ${position.y}px)`,
                               transform: "translate(-50%, -50%)",
                             }}
                           >
-                            <SkillIcon skill={skill} category={category.category} index={globalIndex} />
+                            <SkillIcon skill={skill} category={category.category} index={globalIndex} className="z-0"/>
                           </div>
                         )
                       }),

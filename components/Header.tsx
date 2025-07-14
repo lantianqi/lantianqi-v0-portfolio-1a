@@ -36,7 +36,7 @@ export default function Header({}: HeaderProps) {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-slate-100/90 dark:bg-stone-800/90 backdrop-blur-sm border-b border-slate-300 dark:border-stone-500"
+      className="fixed top-0 left-0 right-0 z-50 bg-slate-100/90 dark:bg-stone-800/90 backdrop-blur-xl border-b border-slate-300 dark:border-stone-500"
     >
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
