@@ -103,6 +103,8 @@ export default function SkillsSection({}: SkillsSectionProps) {
           </Tilt>
         </motion.div>
 
+        <div id="tooltip-root"></div>
+
         {filteredSkills.length > 0 && (
           <>
             {/* Category Filter */}

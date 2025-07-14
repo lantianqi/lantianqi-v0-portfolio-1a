@@ -23,7 +23,6 @@ export default function HomePage() {
       <main className="pt-20">
         <LandingSection />
         <SkillsSection />
-        <div id="tooltip-root"></div>
         <ProjectsSection />
         <ResumeSection />
         <ContactSection />
