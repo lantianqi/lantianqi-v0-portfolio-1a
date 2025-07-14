@@ -34,8 +34,10 @@ const iconMap = {
   SiPandas,
 }
 
-export default function DynamicIcon({ iconName, size = 24, className = "" }: DynamicIconProps) {
+export function DynamicIcon({ iconName, size = 24, className = "" }: DynamicIconProps) {
   const IconComponent = iconMap[iconName as keyof typeof iconMap] || Code
 
   return <IconComponent size={size} className={className} />
 }
+
+export default DynamicIcon
