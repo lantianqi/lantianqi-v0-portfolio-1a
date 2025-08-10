@@ -3,10 +3,9 @@ import type { Config } from "tailwindcss"
 const config: Config = {
   darkMode: ["class"],
   content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "*.{js,ts,jsx,tsx,mdx}",
   ],
   prefix: "",
@@ -52,19 +51,6 @@ const config: Config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        slate: {
-          100: "#f1f5f9",
-          300: "#cbd5e1",
-          600: "#475569",
-          800: "#1e293b",
-        },
-        stone: {
-          100: "#f5f5f4",
-          200: "#e7e5e4",
-          400: "#a8a29e",
-          500: "#78716c",
-          800: "#292524",
         },
       },
       borderRadius: {

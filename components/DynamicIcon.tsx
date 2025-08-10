@@ -1,17 +1,7 @@
 "use client"
 
-import { FaReact, FaJs, FaNodeJs, FaPython } from "react-icons/fa"
-import {
-  SiTypescript,
-  SiExpress,
-  SiMongodb,
-  SiPostgresql,
-  SiTensorflow,
-  SiPytorch,
-  SiScikitlearn,
-  SiPandas,
-} from "react-icons/si"
-import { Code } from "lucide-react"
+import * as LucideIcons from "lucide-react"
+import * as ReactIcons from "react-icons/si"
 
 interface DynamicIconProps {
   iconName: string
@@ -19,25 +9,22 @@ interface DynamicIconProps {
   className?: string
 }
 
-const iconMap = {
-  FaReact,
-  FaJs,
-  FaNodeJs,
-  FaPython,
-  SiTypescript,
-  SiExpress,
-  SiMongodb,
-  SiPostgresql,
-  SiTensorflow,
-  SiPytorch,
-  SiScikitLearn: SiScikitlearn,
-  SiPandas,
-}
-
 export function DynamicIcon({ iconName, size = 24, className = "" }: DynamicIconProps) {
-  const IconComponent = iconMap[iconName as keyof typeof iconMap] || Code
+  // Try Lucide icons first
+  const LucideIcon = (LucideIcons as any)[iconName]
+  if (LucideIcon) {
+    return <LucideIcon size={size} className={className} />
+  }
 
-  return <IconComponent size={size} className={className} />
+  // Try React Icons (Simple Icons)
+  const ReactIcon = (ReactIcons as any)[iconName]
+  if (ReactIcon) {
+    return <ReactIcon size={size} className={className} />
+  }
+
+  // Fallback to a default icon
+  return <LucideIcons.Code size={size} className={className} />
 }
 
+// Also export as default for backward compatibility
 export default DynamicIcon
