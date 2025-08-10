@@ -1,19 +1,19 @@
-"use client"
+"use client";
 
-import { useTranslations } from "@/contexts/i18n-context"
-import { useTheme } from "next-themes"
-import ThemeSwitcher from "./ThemeSwitcher"
-import LanguageSwitcher from "./LanguageSwitcher"
-import { motion } from "framer-motion"
-import { useState } from "react"
-import { Menu, X } from "lucide-react"
+import { useTranslations } from "@/contexts/i18n-context";
+import { useTheme } from "next-themes";
+import ThemeSwitcher from "./ThemeSwitcher";
+import LanguageSwitcher from "./LanguageSwitcher";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { Menu, X } from "lucide-react";
 
-type HeaderProps = {}
+type HeaderProps = {};
 
 export default function Header({}: HeaderProps) {
-  const t = useTranslations()
-  const { theme } = useTheme()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const t = useTranslations();
+  const { theme } = useTheme();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const navItems = [
     { key: "nav.home", href: "#landing" },
@@ -21,21 +21,34 @@ export default function Header({}: HeaderProps) {
     { key: "nav.projects", href: "#projects" },
     { key: "nav.resume", href: "#resume" },
     { key: "nav.contact", href: "#contact" },
-  ]
+  ];
 
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
+    console.log('scrollToSection called with:', href); // Debug log
+    const element = document.querySelector(href) as HTMLElement;
     if (element) {
-      element.scrollIntoView({ behavior: "smooth" })
+      console.log('Element found:', element); // Debug log
+      // Get the element's position relative to the document
+      const elementTop = element.offsetTop;
+      console.log('Element top position:', elementTop); // Debug log
+      // Scroll to position the section at the top of the viewport (below the header)
+      // This ensures all sections start from the same position when scrolled to
+      window.scrollTo({
+        top: elementTop,
+        behavior: "smooth",
+      });
+      console.log('Scroll executed'); // Debug log
+    } else {
+      console.log('Element not found for:', href); // Debug log
     }
-    setIsMenuOpen(false)
-  }
+    setIsMenuOpen(false);
+  };
 
   return (
     <motion.header
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 1 }}
       className="fixed top-0 left-0 right-0 z-50 bg-slate-100/90 dark:bg-stone-800/90 backdrop-blur-xl border-b border-slate-300 dark:border-stone-500"
     >
       <nav className="container mx-auto px-4 py-4">
@@ -80,25 +93,28 @@ export default function Header({}: HeaderProps) {
         </div>
 
         {/* Mobile Navigation */}
-        <motion.div
-          initial={false}
-          animate={{ height: isMenuOpen ? "auto" : 0, opacity: isMenuOpen ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          className="md:hidden overflow-hidden"
-        >
-          <div className="pt-4 pb-2 space-y-2">
-            {navItems.map((item) => (
-              <button
-                key={item.key}
-                onClick={() => scrollToSection(item.href)}
-                className="block w-full text-left py-2 px-4 font-sans font-normal text-slate-600 dark:text-stone-200 hover:text-slate-800 dark:hover:text-stone-100 hover:bg-slate-300 dark:hover:bg-stone-500 rounded-lg transition-colors"
-              >
-                {t(item.key)}
-              </button>
-            ))}
-          </div>
-        </motion.div>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden border-t border-slate-300 dark:border-stone-500"
+          >
+            <div className="pt-4 pb-2 space-y-2">
+              {navItems.map((item) => (
+                <button
+                  key={item.key}
+                  onClick={() => scrollToSection(item.href)}
+                  className="block w-full text-left py-2 px-4 font-sans font-normal text-slate-600 dark:text-stone-200 hover:text-slate-800 dark:hover:text-stone-100 hover:bg-slate-300 dark:hover:bg-stone-500 rounded-lg transition-colors cursor-pointer"
+                >
+                  {t(item.key)}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
       </nav>
     </motion.header>
-  )
+  );
 }

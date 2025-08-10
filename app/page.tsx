@@ -20,7 +20,7 @@ export default function HomePage() {
       className="min-h-screen bg-slate-100 dark:bg-stone-800"
     >
       <Header />
-      <main className="pt-20">
+      <main>
         <LandingSection />
         <SkillsSection />
         <ProjectsSection />

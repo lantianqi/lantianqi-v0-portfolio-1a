@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react"
+import { createContext, useContext, useState, type ReactNode } from "react";
 
-type Locale = "en" | "zh"
+type Locale = "en" | "zh";
 
 interface Translations {
-  en: Record<string, string>
-  zh: Record<string, string>
+  en: Record<string, string>;
+  zh: Record<string, string>;
 }
 
 interface I18nContextType {
-  locale: Locale
-  setLocale: (locale: Locale) => void
-  t: (key: string) => string
+  locale: Locale;
+  setLocale: (locale: Locale) => void;
+  t: (key: string) => string;
 }
 
 const translations: Translations = {
@@ -23,9 +23,9 @@ const translations: Translations = {
     "nav.resume": "Resume",
     "nav.contact": "Contact",
     "section.landing": "Landing Page",
-    "section.landing.tagline": "Landing Page",
-    "section.landing.viewmywork": "Landing Page",
-    "section.landing.hireme": "Landing Page",
+    "section.landing.tagline": "I am Tianqi Lan. I can do AI & fullstack development",
+    "section.landing.viewmywork": "View My Work",
+    "section.landing.hireme": "Hire Me",
     "section.skills": "Skills",
     "section.skills.fullstack": "Full-Stack",
     "section.skills.database": "Database",
@@ -41,9 +41,9 @@ const translations: Translations = {
     "nav.resume": "简历",
     "nav.contact": "联系",
     "section.landing": "首页",
-    "section.landing.tagline": "Landing Page",
-    "section.landing.viewmywork": "Landing Page",
-    "section.landing.hireme": "Landing Page",
+    "section.landing.tagline": "我是兰添淇。我可以做AI和全栈开发",
+    "section.landing.viewmywork": "我的工作",
+    "section.landing.hireme": "与我合作",
     "section.skills": "技能",
     "section.skills.fullstack": "全栈开发",
     "section.skills.database": "数据库",
@@ -52,32 +52,32 @@ const translations: Translations = {
     "section.resume": "简历",
     "section.contact": "联系方式",
   },
-}
+};
 
-const I18nContext = createContext<I18nContextType | undefined>(undefined)
+const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
-  const [locale, setLocale] = useState<Locale>("en")
+  const [locale, setLocale] = useState<Locale>("en");
 
   const t = (key: string): string => {
-    return translations[locale][key] || key
-  }
+    return translations[locale][key] || key;
+  };
 
-  return <I18nContext.Provider value={{ locale, setLocale, t }}>{children}</I18nContext.Provider>
+  return <I18nContext.Provider value={{ locale, setLocale, t }}>{children}</I18nContext.Provider>;
 }
 
 export function useTranslations() {
-  const context = useContext(I18nContext)
+  const context = useContext(I18nContext);
   if (context === undefined) {
-    throw new Error("useTranslations must be used within an I18nProvider")
+    throw new Error("useTranslations must be used within an I18nProvider");
   }
-  return context.t
+  return context.t;
 }
 
 export function useI18n() {
-  const context = useContext(I18nContext)
+  const context = useContext(I18nContext);
   if (context === undefined) {
-    throw new Error("useI18n must be used within an I18nProvider")
+    throw new Error("useI18n must be used within an I18nProvider");
   }
-  return context
+  return context;
 }

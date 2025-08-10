@@ -2,12 +2,12 @@
   {
     "category": "fullstack",
     "skills": [
-      { "name": "React", "proficiency": 8, "icon": "FaReact" },
-      { "name": "JavaScript", "proficiency": 7, "icon": "FaJs" },
+      { "name": "React", "proficiency": 8, "icon": "SiReact" },
+      { "name": "JavaScript", "proficiency": 7, "icon": "SiJavascript" },
       { "name": "TypeScript", "proficiency": 6, "icon": "SiTypescript" },
-      { "name": "Node.js", "proficiency": 7, "icon": "FaNodeJs" },
+      { "name": "Node.js", "proficiency": 7, "icon": "SiNodedotjs" },
       { "name": "Express.js", "proficiency": 6, "icon": "SiExpress" },
-      { "name": "Python", "proficiency": 8, "icon": "FaPython" }
+      { "name": "Python", "proficiency": 8, "icon": "SiPython" }
     ]
   },
   {
@@ -22,7 +22,7 @@
     "skills": [
       { "name": "TensorFlow", "proficiency": 7, "icon": "SiTensorflow" },
       { "name": "PyTorch", "proficiency": 6, "icon": "SiPytorch" },
-      { "name": "Scikit-learn", "proficiency": 7, "icon": "SiScikitLearn" },
+      { "name": "Scikit-learn", "proficiency": 7, "icon": "SiScikitlearn" },
       { "name": "Pandas", "proficiency": 8, "icon": "SiPandas" }
     ]
   }
